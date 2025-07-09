@@ -21,7 +21,7 @@ jobs:
 
       - name: Add Environment Variables
         env:
-          NEXT_PUBLIC_PUBNUB_PUBLISH_KEY: ${{ secrets.NEXT_PUBLIC_PUBNUB_PUBLISH_KEY }}
+          NEXT_PUBLIC_PUBNUB_PUBLISH_KEY: ${{ secrets.NEXT_PUBLIC_PUBNUB_PUBLISH }}
           NEXT_PUBLIC_PUBNUB_SUBSCRIBE_KEY: ${{ secrets.NEXT_PUBLIC_PUBNUB_SUBSCRIBE_KEY }}
         run: echo "Environment variables configured."
 
