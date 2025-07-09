@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useGameContext, Question, Answer } from "../context/GameContext";
 import "../styles/flip-animation.css";
 
@@ -10,6 +10,20 @@ type GameBoardProps = {
 
 const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
   const { activeQuestion, wrongAnswers, revealAnswer } = useGameContext();
+  const [showBigX, setShowBigX] = useState(false);
+  const [previousWrong, setPreviousWrong] = useState(0);
+
+  // Effect to show the big X animation when wrongAnswers increases
+  useEffect(() => {
+    if (wrongAnswers > 0 && wrongAnswers > previousWrong) {
+      setShowBigX(true);
+      const timer = setTimeout(() => {
+        setShowBigX(false);
+      }, 1800); // Match animation duration
+      setPreviousWrong(wrongAnswers);
+      return () => clearTimeout(timer);
+    }
+  }, [wrongAnswers, previousWrong]);
 
   // Render empty state if no active question
   if (!activeQuestion) {
@@ -25,14 +39,31 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
   // Display X's for wrong answers
   const renderXs = () => {
     return (
-      <div className="flex justify-center my-6 gap-8">
+      <div className="flex justify-center my-6 gap-10 relative min-h-[120px]">
         {[...Array(3)].map((_, index) => (
           <div
             key={index}
             className={`wrong-answer ${
-              index < wrongAnswers ? "opacity-100" : "opacity-20"
+              index < wrongAnswers ? "visible" : "hidden"
             }`}
           >
+            X
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  // Render big modal X when a wrong answer is added
+  const renderModalX = () => {
+    if (!showBigX) return null;
+
+    return (
+      <div
+        className={`x-modal-container ${wrongAnswers > 1 ? "multiple" : ""}`}
+      >
+        {[...Array(wrongAnswers)].map((_, idx) => (
+          <div key={idx} className="modal-x">
             X
           </div>
         ))}
@@ -111,18 +142,23 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
   };
 
   return (
-    <div className="flex flex-col items-center bg-blue-900 rounded-xl p-8 text-white w-full family-feud-board">
-      {/* Question header */}
-      <div className="bg-black text-amber-400 font-bold text-2xl px-8 py-4 rounded-full mb-6 min-w-96 text-center highlight-border">
-        {activeQuestion.question}
+    <>
+      {/* Modal X overlay */}
+      {renderModalX()}
+
+      <div className="flex flex-col items-center bg-blue-900 rounded-xl p-8 text-white w-full family-feud-board">
+        {/* Question header */}
+        <div className="bg-black text-amber-400 font-bold text-2xl px-8 py-4 rounded-full mb-6 min-w-96 text-center highlight-border">
+          {activeQuestion.question}
+        </div>
+
+        {/* Wrong answers */}
+        {renderXs()}
+
+        {/* Answer board */}
+        {renderAnswers()}
       </div>
-
-      {/* Wrong answers */}
-      {renderXs()}
-
-      {/* Answer board */}
-      {renderAnswers()}
-    </div>
+    </>
   );
 };
 

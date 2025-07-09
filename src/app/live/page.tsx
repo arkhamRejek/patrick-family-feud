@@ -63,13 +63,22 @@ export default function LivePage() {
           typeof message.count === "number"
         ) {
           console.log("Setting wrong answers to:", message.count);
-          // We need to set the wrong answer count directly
-          // The addWrongAnswer function adds 1, but we need to set the exact count
-          for (let i = 0; i < message.count; i++) {
-            addWrongAnswer();
-          }
-          // Play buzzer sound for wrong answer
+
+          // Play buzzer sound for wrong answer first
           playSound("buzzer");
+
+          // Reset current wrong answer count
+          resetWrongAnswers();
+
+          // Delay adding X's for dramatic effect
+          setTimeout(() => {
+            // Add exactly the number of X's needed
+            for (let i = 0; i < message.count!; i++) {
+              setTimeout(() => {
+                addWrongAnswer();
+              }, 100); // Small delay between multiple X's if needed
+            }
+          }, 300);
         } else if (message.type === "RESET_WRONG_ANSWERS") {
           console.log("Resetting wrong answers");
           resetWrongAnswers();

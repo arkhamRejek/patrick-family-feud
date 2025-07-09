@@ -104,18 +104,23 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
 
   const addWrongAnswer = () => {
     if (wrongAnswers < 3) {
-      const newCount = wrongAnswers + 1;
-      setWrongAnswers(newCount);
-
+      // First play the buzzer sound
       playSound("buzzer");
 
-      pubnub.publish({
-        channel: "family-feud",
-        message: {
-          type: "WRONG_ANSWER",
-          count: newCount,
-        },
-      });
+      // Then delay the X appearance for a more dramatic effect
+      setTimeout(() => {
+        const newCount = wrongAnswers + 1;
+        setWrongAnswers(newCount);
+
+        // Publish to PubNub
+        pubnub.publish({
+          channel: "family-feud",
+          message: {
+            type: "WRONG_ANSWER",
+            count: newCount,
+          },
+        });
+      }, 300); // Delay for dramatic effect
     }
   };
 
