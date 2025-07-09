@@ -19,6 +19,12 @@ jobs:
         with:
           persist-credentials: true # so gh-pages can push
 
+      - name: Add Environment Variables
+        env:
+          NEXT_PUBLIC_PUBNUB_PUBLISH_KEY: ${{ secrets.NEXT_PUBLIC_PUBNUB_PUBLISH_KEY }}
+          NEXT_PUBLIC_PUBNUB_SUBSCRIBE_KEY: ${{ secrets.NEXT_PUBLIC_PUBNUB_SUBSCRIBE_KEY }}
+        run: echo "Environment variables configured."
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
