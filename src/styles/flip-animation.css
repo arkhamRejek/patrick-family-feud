@@ -99,8 +99,6 @@
 }
 
 .modal-x {
-  color: #ff0000;
-  font-size: 20rem;
   font-weight: bold;
   font-family: 'Impact', sans-serif;
   text-shadow: 
@@ -109,10 +107,39 @@
     -5px 5px 0 #000,
     5px 5px 0 #000,
     0 0 30px rgba(255,0,0,0.8);
-  background: linear-gradient(to bottom, #ff3019 0%,#9e0000 100%);
+  animation: x-shake 0.5s ease-in-out;
+  color: #ff0000;
+}
+
+/* Different sizes for different numbers of X's */
+.modal-x-large {
+  font-size: 20rem;
+  background: linear-gradient(to bottom, #ff0000 0%, #990000 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: x-shake 0.5s ease-in-out;
+}
+
+.modal-x-medium {
+  font-size: 16rem;
+  background: linear-gradient(to bottom, #ff0000 0%, #cc0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.modal-x-small {
+  font-size: 12rem;
+  background: linear-gradient(to bottom, #ff0000 0%, #cc0000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Add a glow effect to make X stand out more */
+.modal-x::before {
+  content: 'X';
+  position: absolute;
+  z-index: -1;
+  color: #ff0000;
+  filter: blur(15px);
 }
 
 /* Counter X styles (the ones that stay on screen) */
@@ -177,7 +204,7 @@
     -2px 2px 0 #000,
     2px 2px 0 #000,
     4px 4px 8px rgba(0,0,0,0.8);
-  background: linear-gradient(to bottom, #ff3019 0%,#cf0404 100%);
+  background: linear-gradient(to bottom, #ff0000 0%, #cc0000 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: x-popup 0.7s ease-out forwards;

@@ -11,19 +11,21 @@ type GameBoardProps = {
 const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
   const { activeQuestion, wrongAnswers, revealAnswer } = useGameContext();
   const [showBigX, setShowBigX] = useState(false);
-  const [previousWrong, setPreviousWrong] = useState(0);
+  const [displayedXCount, setDisplayedXCount] = useState(0);
 
-  // Effect to show the big X animation when wrongAnswers increases
+  // Effect to show the big X animation when wrongAnswers changes
   useEffect(() => {
-    if (wrongAnswers > 0 && wrongAnswers > previousWrong) {
+    if (wrongAnswers > 0 && wrongAnswers !== displayedXCount) {
       setShowBigX(true);
+      setDisplayedXCount(wrongAnswers);
+
       const timer = setTimeout(() => {
         setShowBigX(false);
       }, 1800); // Match animation duration
-      setPreviousWrong(wrongAnswers);
+
       return () => clearTimeout(timer);
     }
-  }, [wrongAnswers, previousWrong]);
+  }, [wrongAnswers, displayedXCount]);
 
   // Render empty state if no active question
   if (!activeQuestion) {
@@ -58,12 +60,20 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
   const renderModalX = () => {
     if (!showBigX) return null;
 
+    // Calculate size based on number of Xs
+    const sizeClass =
+      wrongAnswers > 1
+        ? wrongAnswers === 2
+          ? "modal-x-medium"
+          : "modal-x-small"
+        : "modal-x-large";
+
     return (
       <div
         className={`x-modal-container ${wrongAnswers > 1 ? "multiple" : ""}`}
       >
         {[...Array(wrongAnswers)].map((_, idx) => (
-          <div key={idx} className="modal-x">
+          <div key={idx} className={`modal-x ${sizeClass}`}>
             X
           </div>
         ))}
