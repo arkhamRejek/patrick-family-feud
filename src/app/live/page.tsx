@@ -123,9 +123,8 @@ export default function LivePage() {
       <header className="flex justify-between items-center mb-8 px-4">
         <h1 className="text-3xl font-light tracking-tight text-white">
           <span className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-cyan-400">
-            Quiz
+            Warr Family Feud
           </span>
-          Board
         </h1>
         <div className="flex gap-4 items-center">
           <div
