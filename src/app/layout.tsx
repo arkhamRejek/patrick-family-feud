@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Patrick's Family Feud",
+  title: "Warr Family Feud",
   description: "A Family Feud game for family gatherings",
 };
 

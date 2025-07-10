@@ -79,10 +79,10 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-gray-900 text-white p-6 pb-24">
       <header className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-amber-400">
-          Patrick's Family Feud Admin
+          Warr Family Feud Admin
         </h1>
         <div className="flex gap-4">
           <button
@@ -138,38 +138,41 @@ export default function AdminPage() {
         {/* Center - Game board */}
         <div className="lg:col-span-2">
           <GameBoard isAdmin={true} />
-
-          {/* Controls */}
-          {activeQuestion && (
-            <div className="bg-blue-800 p-4 rounded-lg mt-6">
-              <h2 className="text-xl font-bold mb-4">Game Controls</h2>
-
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={() => addWrongAnswer()}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
-                >
-                  Add X
-                </button>
-
-                <button
-                  onClick={() => resetWrongAnswers()}
-                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded"
-                >
-                  Reset X's
-                </button>
-
-                <button
-                  onClick={() => endRound()}
-                  className="bg-amber-500 hover:bg-amber-600 text-black px-4 py-2 rounded"
-                >
-                  End Round
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
+
+      {/* Floating Game Controls */}
+      {activeQuestion && (
+        <div className="fixed bottom-0 left-0 right-0 bg-blue-900 p-4 border-t-2 border-amber-500 shadow-lg z-10">
+          <div className="container mx-auto flex flex-wrap items-center justify-between">
+            <h2 className="text-xl font-bold text-amber-400 mr-4">
+              Game Controls
+            </h2>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => addWrongAnswer()}
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+              >
+                Add X
+              </button>
+
+              <button
+                onClick={() => resetWrongAnswers()}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded"
+              >
+                Reset X's
+              </button>
+
+              <button
+                onClick={() => endRound()}
+                className="bg-amber-500 hover:bg-amber-600 text-black px-4 py-2 rounded"
+              >
+                End Round
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

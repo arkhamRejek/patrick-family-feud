@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-blue-900 text-white p-8">
-      <h1 className="text-4xl font-bold mb-8">Patrick's Family Feud</h1>
+      <h1 className="text-4xl font-bold mb-8">Warr Family Feud</h1>
       <div className="flex gap-6">
         <Link
           href="/admin"
