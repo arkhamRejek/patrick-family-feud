@@ -30,9 +30,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
   // Render empty state if no active question
   if (!activeQuestion) {
     return (
-      <div className="flex flex-col items-center justify-center h-full min-h-[500px] bg-blue-900 rounded-xl p-8 text-white family-feud-board">
-        <h2 className="text-3xl font-bold text-amber-400">
-          {isAdmin ? "Select a question to start" : "Welcome to Family Feud!"}
+      <div className="flex flex-col items-center justify-center h-full min-h-[500px] bg-slate-800/40 backdrop-blur-sm rounded-2xl p-8 text-white border border-slate-700/50 shadow-lg">
+        <h2 className="text-2xl font-light text-white">
+          {isAdmin ? "Select a question to start" : "Welcome to the Quiz!"}
         </h2>
       </div>
     );
@@ -41,15 +41,26 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
   // Display X's for wrong answers
   const renderXs = () => {
     return (
-      <div className="flex justify-center my-6 gap-10 relative min-h-[120px]">
+      <div className="flex justify-center my-6 gap-10 relative min-h-[80px]">
         {[...Array(3)].map((_, index) => (
           <div
             key={index}
-            className={`wrong-answer ${
+            className={`wrong-answer-modern ${
               index < wrongAnswers ? "visible" : "hidden"
             }`}
           >
-            X
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-full h-full"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                clipRule="evenodd"
+              />
+            </svg>
           </div>
         ))}
       </div>
@@ -70,11 +81,24 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
 
     return (
       <div
-        className={`x-modal-container ${wrongAnswers > 1 ? "multiple" : ""}`}
+        className={`x-modal-container-modern ${
+          wrongAnswers > 1 ? "multiple" : ""
+        }`}
       >
         {[...Array(wrongAnswers)].map((_, idx) => (
-          <div key={idx} className={`modal-x ${sizeClass}`}>
-            X
+          <div key={idx} className={`modal-x-modern ${sizeClass}`}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-full h-full"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                clipRule="evenodd"
+              />
+            </svg>
           </div>
         ))}
       </div>
@@ -89,13 +113,13 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
     );
 
     return (
-      <div className="grid grid-cols-2 gap-6 w-full max-w-4xl mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl mt-6">
         {displayAnswers.map((answer, index) => {
           if (!answer)
             return (
               <div
                 key={`empty-${index}`}
-                className="h-20 bg-blue-800 rounded-md border-2 border-amber-500"
+                className="h-20 bg-slate-800/30 rounded-lg border border-slate-700/30"
               ></div>
             );
 
@@ -106,10 +130,10 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
               key={index}
               onClick={() => isAdmin && !isRevealed && revealAnswer(index)}
               className={`
-                flex h-20 rounded-md border-2 border-amber-400
+                flex h-20 rounded-lg border border-slate-700/50
                 ${
                   isAdmin && !isRevealed
-                    ? "cursor-pointer hover:bg-blue-600"
+                    ? "cursor-pointer hover:border-indigo-500/50 hover:bg-slate-800/50"
                     : ""
                 }
                 flip-card ${isRevealed ? "flipped" : ""}
@@ -117,29 +141,29 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
             >
               <div className="flip-card-inner">
                 {/* Front side (hidden answer) */}
-                <div className="flip-card-front bg-blue-700 flex items-center justify-center w-full h-full rounded-md">
+                <div className="flip-card-front bg-slate-800/60 backdrop-blur-sm flex items-center justify-center w-full h-full rounded-lg">
                   {isAdmin ? (
                     <div className="flex justify-between items-center w-full px-4">
-                      <div className="font-bold text-lg text-white opacity-70">
+                      <div className="font-medium text-lg text-white opacity-70">
                         {answer.answer}
                       </div>
-                      <div className="bg-blue-600 text-white font-bold rounded-md min-w-10 h-10 flex items-center justify-center px-3">
+                      <div className="bg-indigo-600/70 text-white font-medium rounded-md min-w-10 h-10 flex items-center justify-center px-3">
                         {answer.points}
                       </div>
                     </div>
                   ) : (
-                    <span className="text-white font-bold text-xl opacity-0">
+                    <span className="text-white font-medium text-xl opacity-0">
                       Hidden
                     </span>
                   )}
                 </div>
 
                 {/* Back side (revealed answer) */}
-                <div className="flip-card-back bg-blue-700 flex justify-between items-center w-full h-full rounded-md">
-                  <div className="font-bold text-xl text-white uppercase tracking-wide pl-4 flex-1">
+                <div className="flip-card-back bg-gradient-to-r from-indigo-600/80 to-indigo-800/80 backdrop-blur-sm flex justify-between items-center w-full h-full rounded-lg">
+                  <div className="font-medium text-xl text-white pl-4 flex-1">
                     {answer.answer}
                   </div>
-                  <div className="bg-blue-500 text-white font-bold text-xl h-full flex items-center justify-center px-4 min-w-[60px]">
+                  <div className="bg-indigo-500/80 text-white font-medium text-xl h-full flex items-center justify-center px-4 min-w-[60px]">
                     {answer.points}
                   </div>
                 </div>
@@ -156,9 +180,9 @@ const GameBoard: React.FC<GameBoardProps> = ({ isAdmin = false }) => {
       {/* Modal X overlay */}
       {renderModalX()}
 
-      <div className="flex flex-col items-center bg-blue-900 rounded-xl p-8 text-white w-full family-feud-board">
+      <div className="flex flex-col items-center bg-slate-800/40 backdrop-blur-sm rounded-2xl p-8 text-white w-full border border-slate-700/50 shadow-lg">
         {/* Question header */}
-        <div className="bg-black text-amber-400 font-bold text-2xl px-8 py-4 rounded-full mb-6 min-w-96 text-center highlight-border">
+        <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 font-medium text-xl px-8 py-4 rounded-lg mb-6 w-full max-w-2xl text-center shadow-md">
           {activeQuestion.question}
         </div>
 
